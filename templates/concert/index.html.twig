@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConcertController!{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+        BONJOUR {{ app.user.get('email') }}
+    {% else%}
+        VOUS N ETES PAS CONNECTE
+    {% endif %}
+{% endblock %}

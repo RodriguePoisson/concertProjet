@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConcertController!{% endblock %}
+
+{% block body %}
+ {% for b in bands %}
+  <div class="card" style="width: 18rem;">
+   <img class="card-img-top" src="{{ absolute_url(asset('image/bands/'~b.getPicture()))}}" alt="{{ b.getName() }}">
+   <div class="card-body">
+    <h5 class="card-title">{{ b.getName() }}</h5>
+    <p class="card-text">{{b.getDescription()}}</p>
+    <a href="{{ path('bandOverview',{'id':b.getId()})}}" class="btn btn-primary">Voir les membres</a>
+   </div>
+  </div>
+ {% endfor %}
+{% endblock %}

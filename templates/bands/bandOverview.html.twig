@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConcertController!{% endblock %}
+
+{% block body %}
+
+
+    {% for artist in band.getArtist() %}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{ absolute_url(asset('image/artists/'~artist.getPicture()))}}" alt="{{ artist.getPseudo() }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ artist.getPseudo() }}</h5>
+                <a href="{{ path("artistOverview",{"id":artist.getId()}) }}" class="btn btn-primary">En savoir plus</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
