@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.get('_route')== "concert" %}active aria-current="page"{% endif %}" href="{{path('concert')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.get('_route')== "bandLists" %}active aria-current="page"{% endif %}" href="{{path('bandLists')}}">Liste des groupes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.get('_route')== "trouver_concert" %}active aria-current="page"{% endif %}" href="{{path('trouver_concert')}}">Trouver un concert</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.get('_route')== "artistsList" %}active aria-current="page"{% endif %}" href="{{path('artistsList')}}">Trouver un artiste</a>
+                </li>
+            </ul>
+ 
+            <ul class="my-2 my-lg-0 navbar-nav">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a href="{{path('bandLists')}}" class="nav-link">{{app.user.getEmail()}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if app.request.get('_route')== "app_login" %}active aria-current="page"{% endif %}" href="{{path('app_login')}}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if app.request.get('_route')== "app_register" %}active aria-current="page"{% endif %}" href="{{path('app_register')}}">Inscription</a>
+                    </li>
+                {% endif %}
+
+
+            </ul>
+        </div>
+    </div>
+</nav>

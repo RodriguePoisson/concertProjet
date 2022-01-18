@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier groupe{% endblock %}
+
+{% block body %}
+<h1> Modifier un Groupe </h1>
+
+{{ form_start(band_form) }}
+    {{ form_row(band_form.name, {
+            label: 'Nom'}) }}
+    {{ form_row(band_form.artist, {
+            label: 'Membres du groupe'}) }}
+    {{ form_row(band_form.description , {
+            label: 'Description'}) }}
+    {{ form_row(band_form.picture , {
+    label: 'Photo du concert'}) }}
+
+    <button type="submit" class="btn">Modifier groupe</button>
+{{ form_end(band_form) }}
+{% endblock %}

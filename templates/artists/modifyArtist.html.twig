@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier groupe{% endblock %}
+
+{% block body %}
+<h1> Modifier un Groupe </h1>
+
+{{ form_start(artist_form) }}
+    {{ form_row(artist_form.pseudo , {
+        label: 'Pseudonyme'}) }}
+    
+    {{ form_row(artist_form.biography , {
+            label: 'Description'}) }}
+    {{ form_row(artist_form.picture , {
+    label: 'Photo de l\'artiste'}) }}
+    {{ form_row(artist_form.name, {
+            label: 'Nom'}) }}
+    {{ form_row(artist_form.last_name, {
+    label: 'Nom'}) }}
+    
+
+    <button type="submit" class="btn">Modifier artiste</button>
+{{ form_end(artist_form) }}
+{% endblock %}

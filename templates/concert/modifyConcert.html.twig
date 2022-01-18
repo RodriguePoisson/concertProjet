@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier concert{% endblock %}
+
+{% block body %}
+<h1> Modifier un Concert </h1>
+
+{{ form_start(concert_form) }}
+    {{ form_row(concert_form.band_in, {
+            label: 'Groupes présents'}) }}
+    {{ form_row(concert_form.artist_invited, {
+            label: 'Artistes invités'}) }}
+    {{ form_row(concert_form.date , {
+    label: 'Date'}) }}
+    {{ form_row(concert_form.duration , {
+    label: 'Durée'}) }}
+    {{ form_row(concert_form.description , {
+            label: 'Description'}) }}
+    {{ form_row(concert_form.picture , {
+    label: 'Photo du concert'}) }}
+
+    <button type="submit" class="btn">Modifier concert</button>
+{{ form_end(concert_form) }}
+{% endblock %}

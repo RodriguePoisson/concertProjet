@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter concert{% endblock %}
+
+{% block body %}
+<h1> Ajouter un Concert </h1>
+
+{{ form_start(addConcertForm) }}
+    {{ form_row(addConcertForm.band_in, {
+            label: 'Groupes présents'}) }}
+    {{ form_row(addConcertForm.artist_invited, {
+            label: 'Artistes invités'}) }}
+    {{ form_row(addConcertForm.date , {
+    label: 'Date'}) }}
+    {{ form_row(addConcertForm.duration , {
+    label: 'Durée'}) }}
+    {{ form_row(addConcertForm.description , {
+            label: 'Description'}) }}
+    {{ form_row(addConcertForm.picture , {
+    label: 'Photo du concert'}) }}
+
+    <button type="submit" class="btn">Ajouter concert</button>
+{{ form_end(addConcertForm) }}
+{% endblock %}
