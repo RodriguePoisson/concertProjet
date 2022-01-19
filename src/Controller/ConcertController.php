@@ -149,14 +149,18 @@ class ConcertController extends AbstractController
     }
 
     /**
-     * @Route("/concerts",name="trouver_concert")
+     * @Route("/concerts/page/{page}",name="trouver_concert",defaults={"page"=1})
      */
-    public function concertListAction():Response
+    public function concertListActionPaginated(String $page):Response
     {
+        $numberPage = ceil($this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertCount()/6);
+        
         return $this->render('concert/concertList.html.twig',[
-            'concerts'=>$this->getDoctrine()->getRepository(ConcertConcert::class)->findAll()
-        ]
-    );
+            'concerts'=>$this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertInLimit((6*$page)-6,6*$page),
+            'page'=>$page,
+            'numberPage'=>$numberPage,
+            
+        ]);
     }
 
     /**
@@ -168,4 +172,5 @@ class ConcertController extends AbstractController
             'concert'=>$this->getDoctrine()->getRepository(ConcertConcert::class)->find($id)
         ]);
     }
+    
 }

@@ -18,12 +18,16 @@ use Symfony\Component\Filesystem\Filesystem;
 class BandController extends AbstractController
 {
     /**
-     * @Route("/bands", name= "bandLists")
+     * @Route("/bands/page/{page}", name= "bandLists",defaults={"page"=1})
      */
-    public function listBandsAction(): Response
+    public function listBandsAction(String $page): Response
     {
+        $numberPage = ceil($this->getDoctrine()->getRepository(ConcertBand::class)->getBandCount()/6);
         return $this->render('bands/index.html.twig',[
-            'bands'=>$this->getDoctrine()->getRepository(ConcertBand::class)->findAll()
+            'bands'=>$this->getDoctrine()->getRepository(ConcertBand::class)->getBandInLimit(6*$page-6,6*$page),
+            'page'=>$page,
+            'numberPage'=>$numberPage,
+            
         ]);
     }
 

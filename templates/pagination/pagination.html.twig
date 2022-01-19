@@ -1,0 +1,20 @@
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item {% if page==1%}disabled{% endif %}">
+      {% set previousPage = page|number_format -1 %}
+      {% set lastPage = 0 %}
+      <a class="page-link" href="{{path(app.request.get('_route'))~'/'~previousPage}}" tabindex="-1">Previous</a>
+    </li>
+    {% for i in 1..numberPage %} 
+      <li class="page-item {% if i==page %}active{% endif %}">
+        <a class="page-link" href="{{path(app.request.get('_route'))~'/'~i}}">{{i}} <span class="sr-only"></span></a>
+      </li>
+      {%set lastPage = lastPage +1%}
+    {% endfor %}
+      {% set nextPage = page|number_format +1 %}
+      <li class="page-item {% if page==lastPage%}disabled{% endif %}">
+      <a class="page-link " href="{{path(app.request.get('_route'))~'/'~nextPage }}">Next</a>
+    </li>
+  </ul>
+</nav>
+

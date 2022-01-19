@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ConcertConcert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,40 @@ class ConcertConcertRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ConcertConcert::class);
+    }
+
+    /**
+    * @return ConcertConcert[] Returns an array of ConcertConcert objects
+    */
+    public function getConcertInLimit($start,$end)
+    {
+        $rsm =  new ResultSetMapping($this->getEntityManager());
+        $rsm->addEntityResult(ConcertConcert::class,'concert');
+        $rsm->addFieldResult('concert', 'id', 'id');
+        $rsm->addFieldResult('concert', 'description', 'description');
+        $rsm->addFieldResult('concert', 'picture', 'picture');
+        $rsm->addFieldResult('concert', 'date', 'date');
+        $rsm->addFieldResult('concert', 'duration', 'duration');
+        
+
+        $sql = 'SELECT * FROM concert_concert LIMIT :start,:end';
+
+        $query = $this->getEntityManager()->createNativeQuery($sql,$rsm);
+        
+        $parameters = ['start'=>$start,'end'=>$end];
+        $query->setParameters($parameters);
+    
+        $concerts = $query->getResult();
+        return $concerts;
+    }
+
+    public function getConcertCount()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('count(concert.id)');
+        $qb->from(ConcertConcert::class,'concert');
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     // /**
