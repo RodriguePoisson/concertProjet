@@ -118,7 +118,7 @@ class ConcertBand
     /**
      * @return Collection|ConcertConcert[]
      */
-    public function getBands(): Collection
+    public function getConcerts(): Collection
     {
         return $this->bands;
     }

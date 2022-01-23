@@ -54,6 +54,50 @@ class ConcertConcertRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+    * @return ConcertConcert[] Returns an array of ConcertConcert objects
+    */
+    public function getConcertInLimitByYear($start,$end,$year)
+    {
+        $rsm =  new ResultSetMapping($this->getEntityManager());
+        $rsm->addEntityResult(ConcertConcert::class,'concert');
+        $rsm->addFieldResult('concert', 'id', 'id');
+        $rsm->addFieldResult('concert', 'description', 'description');
+        $rsm->addFieldResult('concert', 'picture', 'picture');
+        $rsm->addFieldResult('concert', 'date', 'date');
+        $rsm->addFieldResult('concert', 'duration', 'duration');
+        
+
+        $sql = 'SELECT * FROM concert_concert WHERE YEAR(date)=:year LIMIT :start,:end';
+
+        $query = $this->getEntityManager()->createNativeQuery($sql,$rsm);
+        
+        $parameters = ['start'=>$start,'end'=>$end,'year'=>$year];
+        $query->setParameters($parameters);
+    
+        $concerts = $query->getResult();
+        return $concerts;
+    }
+
+    public function getConcertCountByYear($year)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+        SELECT count(*) FROM concert_concert
+        WHERE YEAR(date) = :year
+        ';
+        
+        $stmt = $conn->prepare($sql);
+
+        $stmt->executeQuery(['year' => $year]);
+        
+
+        return $stmt->fetch();
+    }
+
+
+
+
     // /**
     //  * @return ConcertConcert[] Returns an array of ConcertConcert objects
     //  */

@@ -6,6 +6,7 @@ use App\Entity\ConcertBand;
 use App\Entity\User;
 
 use App\Form\BandFormType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -169,6 +170,32 @@ class BandController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('bandOverview',['id'=>$band->getId()]);
+    }
+
+    /**
+     * @Route("/band/concert/{id}",name="get_concert_band")
+     */
+    public function getConcertBand(String $id):Response
+    {
+        $band = $this->getDoctrine()->getRepository(ConcertBand::class)->find($id);
+        
+        
+        $concerts = $band->getConcerts();
+        $concerts_to_go = [];
+
+        foreach($concerts as $concert)
+        {
+            if(date_timestamp_get($concert->getDate())>time())
+            {
+                array_push($concerts_to_go,$concert);
+            }
+        }
+        
+     
+        return $this->render('/bands/listConcertForBand.html.twig',[
+            'concerts'=>$concerts_to_go,
+            'band'=>$band
+        ]);
     }
 }
 

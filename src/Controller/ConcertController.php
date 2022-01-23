@@ -23,9 +23,7 @@ class ConcertController extends AbstractController
      */
     public function indexAction(): Response
     {
-        return $this->render('concert/index.html.twig', [
-            'controller_name' => 'ConcertController',
-        ]);
+        return $this->redirectToRoute('trouver_concert');
     }
 
     /**
@@ -35,6 +33,22 @@ class ConcertController extends AbstractController
     {
         return $this->render('concert/index.html.twig',[
             'name' => $name
+        ]);
+    }
+
+    /**
+     * @Route("/concertByYear/{year}/{page}",name="concert_by_year",defaults={"page"=1})
+     */
+    public function concertByYearAction(String $page,String $year):Response
+    { 
+        $numberPage = ceil($this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertCountByYear($year)['count(*)']/6);
+        
+        return $this->render('concert/concertListByYear.html.twig',[
+            'concerts'=>$this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertInLimitByYear((6*$page)-6,6*$page,$year),
+            'page'=>$page,
+            'numberPage'=>$numberPage,
+            'year'=>$year
+            
         ]);
     }
 
@@ -153,10 +167,19 @@ class ConcertController extends AbstractController
      */
     public function concertListActionPaginated(String $page):Response
     {
-        $numberPage = ceil($this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertCount()/6);
         
+        $concerts = $this->getDoctrine()->getRepository(ConcertConcert::class)->findAll();//getConcertInLimit((6*$page)-6,6*$page);
+        $concerts_to_go = [];
+        foreach($concerts as $concert)
+        {
+            if(date_timestamp_get($concert->getDate())>time())
+            {
+                array_push($concerts_to_go,$concert);
+            }
+        }
+        $numberPage = ceil(count($concerts_to_go)/6);
         return $this->render('concert/concertList.html.twig',[
-            'concerts'=>$this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertInLimit((6*$page)-6,6*$page),
+            'concerts'=>array_slice($concerts_to_go,$page*6-6,6),
             'page'=>$page,
             'numberPage'=>$numberPage,
             
