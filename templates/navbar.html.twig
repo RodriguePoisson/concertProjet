@@ -19,7 +19,7 @@
             <ul class="my-2 my-lg-0 navbar-nav">
                 {% if app.user %}
                     <li class="nav-item">
-                        <a href="{{path('bandLists')}}" class="nav-link">{{app.user.getEmail()}}</a>
+                        <a href="{{path('user_profile',{"id":app.user.getId()})}}" class="nav-link">{{app.user.getEmail()}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>

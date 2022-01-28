@@ -42,6 +42,11 @@ class ConcertController extends AbstractController
     public function concertByYearAction(String $page,String $year):Response
     { 
         $numberPage = ceil($this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertCountByYear($year)['count(*)']/6);
+        if($numberPage=='0')
+        {
+            $numberPage = 1;
+        }
+       
         
         return $this->render('concert/concertListByYear.html.twig',[
             'concerts'=>$this->getDoctrine()->getRepository(ConcertConcert::class)->getConcertInLimitByYear((6*$page)-6,6*$page,$year),
@@ -178,6 +183,10 @@ class ConcertController extends AbstractController
             }
         }
         $numberPage = ceil(count($concerts_to_go)/6);
+        if($numberPage=='0')
+        {
+            $numberPage = 1;
+        }
         return $this->render('concert/concertList.html.twig',[
             'concerts'=>array_slice($concerts_to_go,$page*6-6,6),
             'page'=>$page,
