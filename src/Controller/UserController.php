@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ConcertArtist;
+use App\Entity\ConcertBand;
 use App\Form\RegistrationFormType;
 use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +15,47 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
+
+     /**
+     * @Route("/user/favoriteBand/{page}",name="user_favorite_band",defaults={"page"=1})
+     * @isGranted("ROLE_USER")
+     */
+    public function userFavoriteBandAction(String $page): Response
+    {
+        $numberPage = ceil($this->getDoctrine()->getRepository(ConcertBand::class)->getBandCountByUser($this->getUser()->getId())['COUNT(*)']/6);
+
+        if($numberPage=='0')
+        {
+            $numberPage = '1';
+        }
+        $favoriteBands = $this->getDoctrine()->getRepository(ConcertBand::class)->getFavoriteBand($this->getUser()->getId(),6*$page-6,6*$page);
+
+        return $this->render("user/user_favorite_band.html.twig",[
+            'numberPage'=>$numberPage,
+            'page'=>$page,
+            'bands'=>$favoriteBands
+        ]);
+    }
+    /**
+     * @Route("/user/favoriteArtist/{page}",name="user_favorite_artist",defaults={"page"=1})
+     * @isGranted("ROLE_USER")
+     */
+    public function userFavoriteArtistAction(String $page): Response
+    {
+        $numberPage = ceil($this->getDoctrine()->getRepository(ConcertArtist::class)->getArtistCountByUser($this->getUser()->getId())['COUNT(*)']/6);
+
+        if($numberPage=='0')
+        {
+            $numberPage = '1';
+        }
+        $favoriteArtists = $this->getDoctrine()->getRepository(ConcertArtist::class)->getFavoriteArtist($this->getUser()->getId(),6*$page-6,6*$page);
+
+        return $this->render("user/user_favorite_artist.html.twig",[
+            'numberPage'=>$numberPage,
+            'page'=>$page,
+            'artists'=>$favoriteArtists
+        ]);
+    }
     /**
      * @Route("/user/{id}", name="user_profile")
      * @isGranted("ROLE_USER")
@@ -41,3 +84,4 @@ class UserController extends AbstractController
         ]);
     }
 }
+
