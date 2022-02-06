@@ -24,6 +24,10 @@ class BandController extends AbstractController
     public function listBandsAction(String $page): Response
     {
         $numberPage = ceil($this->getDoctrine()->getRepository(ConcertBand::class)->getBandCount()/6);
+        if($numberPage=='0')
+        {
+            $numberPage = 1;
+        }
         return $this->render('bands/index.html.twig',[
             'bands'=>$this->getDoctrine()->getRepository(ConcertBand::class)->getBandInLimit(6*$page-6,6*$page),
             'page'=>$page,

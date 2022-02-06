@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\ConcertArtist;
 
+
 class MemberFixture extends Fixture
 {
     /**
@@ -43,6 +44,50 @@ class MemberFixture extends Fixture
             ->setPicture("TomMorello.jpg");
         $this->addReference("4",$ratm2);
 
+        $angusYoung = new ConcertArtist();
+        $angusYoung ->setName("Angus")
+                    ->setLastName("Young")
+                    ->setPseudo("Angus Young")
+                    ->setPicture("angus.jpg");
+        $this->addReference("5",$angusYoung);
+
+        $BrianJohnson = new ConcertArtist();
+        $BrianJohnson ->setName("Brian")
+                    ->setLastName("Johnson")
+                    ->setPseudo("Brian Johnson")
+                    ->setPicture("brian.jpg");
+        $this->addReference("6",$BrianJohnson);
+
+        $stevieYoung = new ConcertArtist();
+        $stevieYoung ->setName("Stevie")
+                    ->setLastName("Young")
+                    ->setPseudo("Stevie Young")
+                    ->setPicture("stevieyoung.jpg");
+        $this->addReference("7",$stevieYoung);
+
+
+        $axl = new ConcertArtist();
+        $axl ->setName("Axl")
+                    ->setLastName("Rose")
+                    ->setPseudo("Axl Rose")
+                    ->setPicture("axl.jpg");
+        $this->addReference("8",$axl);
+        $slash = new ConcertArtist();
+        $slash  ->setPseudo("Slash")
+                ->setPicture("slash.jpg");
+        $this->addReference("9",$slash);
+
+        $perrine = new ConcertArtist();
+        $perrine ->setName("Perrine")
+                    ->setLastName("Youinou")
+                    ->setPseudo("Perrine")
+                    ->setPicture("perrine.jpg");
+        $this->addReference("10",$perrine);
+        $rodrigue = new ConcertArtist();
+        $rodrigue  ->setPseudo("Rodrigue")
+                ->setPicture("rodrigue.jpg");
+        $this->addReference("11",$rodrigue);
+
 
 
 
@@ -52,6 +97,13 @@ class MemberFixture extends Fixture
         $manager->persist($ratm2);
         $manager->persist($sabaton1);
         $manager->persist($sabaton2);
+        $manager->persist($angusYoung);
+        $manager->persist($BrianJohnson);
+        $manager->persist($stevieYoung);
+        $manager->persist($slash);
+        $manager->persist($axl);
+        $manager->persist($perrine);
+        $manager->persist($rodrigue);
         $manager->flush();
     }
 }

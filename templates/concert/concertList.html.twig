@@ -26,7 +26,7 @@
                 <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{{ absolute_url(asset('image/concerts/'~c.getPicture()))}}" alt="{{ c.getBandIn()[0].getName() }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ c.getBandIn()[0].getName() }}</h5>
+                    <h5 class="card-title">{{ c.getBandIn()[0].getName() }} : {{c.getDate().format('Y-m-d')}}</h5>
                     <p class="card-text">{{c.getDescription()}}</p>
                     <a href="{{ path('concertOverview',{'id':c.getId()})}}" class="btn btn-primary">Plus d'info</a>
                     <!--{% if app.user %}
